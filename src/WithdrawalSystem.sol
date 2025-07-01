@@ -61,7 +61,7 @@ contract WithdrawalSystem is WithdrawalSystemBase, SecuredTokenTransfer {
         bytes memory data = abi.encodeCall(vaultDelegate.withdrawFunds, (to, tokenAmounts, nativeTokenAmount));
         return
             timelock.getQueueTransactionHash(
-                address(vaultDelegate),
+                address(0),
                 0,
                 data,
                 Enum.Operation.DelegateCall,
@@ -83,7 +83,7 @@ contract WithdrawalSystem is WithdrawalSystemBase, SecuredTokenTransfer {
     ) external {
         bytes memory data = abi.encodeCall(vaultDelegate.withdrawFunds, (to, tokenAmounts, nativeTokenAmount));
         timelock.queueTransaction(
-            address(vaultDelegate),
+            address(0),
             0,
             data,
             Enum.Operation.DelegateCall,
