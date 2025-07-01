@@ -49,7 +49,7 @@ contract ImmunefiModule is AccessControlBaseModule {
         uint256 value,
         bytes memory data,
         Enum.Operation operation
-    ) external onlyRole(EXECUTOR_ROLE) {
+    ) external {
         require(target != address(0), "ImmunefiModule: target is zero address");
         require(!emergencySystem.emergencyShutdownActive(), "ImmunefiModule: emergency shutdown is active");
         bool success = exec(target, to, value, data, operation);
