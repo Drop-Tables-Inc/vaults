@@ -58,7 +58,8 @@ contract WithdrawalSystem is WithdrawalSystemBase, SecuredTokenTransfer {
         address vault,
         uint256 nonce
     ) external view returns (bytes32) {
-        bytes memory data = abi.encodeCall(vaultDelegate.withdrawFunds, (to, tokenAmounts, nativeTokenAmount));
+        address payable zeroTo = payable(address(0));
+        bytes memory data = abi.encodeCall(vaultDelegate.withdrawFunds, (zeroTo, tokenAmounts, nativeTokenAmount));
         return
             timelock.getQueueTransactionHash(
                 address(vaultDelegate),
@@ -81,7 +82,8 @@ contract WithdrawalSystem is WithdrawalSystemBase, SecuredTokenTransfer {
         Rewards.ERC20Reward[] calldata tokenAmounts,
         uint256 nativeTokenAmount
     ) external {
-        bytes memory data = abi.encodeCall(vaultDelegate.withdrawFunds, (to, tokenAmounts, nativeTokenAmount));
+        address payable zeroTo = payable(address(0));
+        bytes memory data = abi.encodeCall(vaultDelegate.withdrawFunds, (zeroTo, tokenAmounts, nativeTokenAmount));
         timelock.queueTransaction(
             address(vaultDelegate),
             0,
