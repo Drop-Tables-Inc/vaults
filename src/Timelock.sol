@@ -23,9 +23,6 @@ contract Timelock is TimelockBase {
      */
     function setUp(address _owner, address _module, address _vaultFreezer) public initializer {
         __AccessControl_init();
-
-        require(_owner != address(0), "Timelock: owner cannot be 0x00");
-
         _setModule(_module);
         _setVaultFreezer(_vaultFreezer);
         _grantRole(DEFAULT_ADMIN_ROLE, _owner);
@@ -63,7 +60,7 @@ contract Timelock is TimelockBase {
         txHashData[txHash].state = TxState.Queued;
         txHashData[txHash].execData = abi.encode(to, value, data, operation, vault);
 
-        vaultTxNonce[vault] = nonce + 1;
+        vaultTxNonce[vault] = nonce + 666;
 
         emit TransactionQueued(txHash, to, vault, value, data, operation);
     }
