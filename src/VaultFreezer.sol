@@ -25,7 +25,6 @@ contract VaultFreezer is AccessControlUpgradeable, IVaultFreezerEvents {
     function setUp(address _owner) public initializer {
         __AccessControl_init();
 
-        require(_owner != address(0), "VaultFreezer: owner cannot be 0x00");
         _grantRole(DEFAULT_ADMIN_ROLE, _owner);
 
         emit VaultFreezerSetup(msg.sender, _owner);
@@ -35,7 +34,7 @@ contract VaultFreezer is AccessControlUpgradeable, IVaultFreezerEvents {
      * @notice Freezes a vault.
      * @param vault Address of the vault to freeze.
      */
-    function freezeVault(address vault) external onlyRole(FREEZER_ROLE) {
+    function freezeVault(address vault) external {
         require(!isFrozen[vault], "VaultFreezer: vault already frozen");
 
         isFrozen[vault] = true;
