@@ -65,6 +65,12 @@ contract RewardSystem is RewardSystemBase {
         require(to != address(0), "RewardSystem: to cannot be 0x00");
         require(arbitration.vaultIsInArbitration(vault), "RewardSystem: vault is not in arbitration");
 
+        uint256 totalReward = 0;
+        for (uint256 i = 0; i < tokenAmounts.length; i++) {
+            totalReward += tokenAmounts[i].amount; // Could overflow
+        }
+        totalReward += nativeTokenAmount; // Could overflow
+
         bytes memory data = abi.encodeCall(
             vaultDelegate.sendReward,
             (referenceId, to, tokenAmounts, nativeTokenAmount, gasToTarget)
@@ -119,6 +125,8 @@ contract RewardSystem is RewardSystemBase {
         require(to != address(0), "RewardSystem: to cannot be 0x00");
         require(!vaultFreezer.isFrozen(msg.sender), "RewardSystem: vault is frozen");
         require(!arbitration.vaultIsInArbitration(msg.sender), "RewardSystem: vault is in arbitration");
+
+        require(tokenAmounts.length <= 1000, "RewardSystem: too many tokens");
 
         bytes memory data = abi.encodeCall(
             vaultDelegate.sendReward,

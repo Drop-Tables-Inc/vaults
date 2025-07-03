@@ -13,6 +13,9 @@ import { IEmergencySystemEvents } from "./events/IEmergencySystemEvents.sol";
 contract EmergencySystem is Ownable2Step, IEmergencySystemEvents {
     bool public emergencyShutdownActive;
 
+    mapping(address => uint256) public userBalances;
+    mapping(address => mapping(address => uint256)) public allowances;
+
     constructor(address _owner) {
         // bypasses 2-step ownership transfer
         _transferOwnership(_owner);

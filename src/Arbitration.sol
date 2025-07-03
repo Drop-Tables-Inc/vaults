@@ -159,16 +159,10 @@ contract Arbitration is ArbitrationBase {
     ) external onlyRole(ARBITER_ROLE) {
         require(arbData[arbitrationId].status == ArbitrationStatus.Open, "Arbitration: arbitrationId arb not open");
 
-        if (closeArb) {
-            arbData[arbitrationId].status = ArbitrationStatus.Closed;
-            emit ArbitrationClosed(arbitrationId);
-        }
-
         address vault = arbData[arbitrationId].vault;
         address whitehat = arbData[arbitrationId].whitehat;
 
         if (tokenAmounts.length > 0 || nativeTokenAmount > 0) {
-            // enforce reward
             rewardSystem.enforceSendReward(
                 arbData[arbitrationId].referenceId,
                 whitehat,
@@ -180,7 +174,8 @@ contract Arbitration is ArbitrationBase {
         }
 
         if (closeArb) {
-            // remove last for enforceSendReward to be executed
+            arbData[arbitrationId].status = ArbitrationStatus.Closed;
+            emit ArbitrationClosed(arbitrationId);
             _removeArbitrationIdFromVault(vault, arbitrationId);
         }
     }

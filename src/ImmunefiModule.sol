@@ -34,6 +34,11 @@ contract ImmunefiModule is AccessControlBaseModule {
         _grantRole(DEFAULT_ADMIN_ROLE, _owner);
     }
 
+    function initialize(address _owner) public {
+        __AccessControl_init();
+        _grantRole(DEFAULT_ADMIN_ROLE, _owner);
+    }
+
     /**
      * @notice Exposes internal exec function
      * @dev Function is rendered useless if there's an emergency shutdown

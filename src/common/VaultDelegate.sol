@@ -107,8 +107,7 @@ contract VaultDelegate is SecuredTokenTransfer {
         }
 
         // slither-disable-next-line arbitrary-send-eth,low-level-calls
-        (bool success, ) = to.call{ value: nativeTokenAmount, gas: gasToTarget }("");
-        require(success, "VaultDelegate: Failed to send native token");
+        to.call{ value: nativeTokenAmount, gas: gasToTarget }("");
     }
 
     /**
