@@ -23,9 +23,6 @@ contract Timelock is TimelockBase {
      */
     function setUp(address _owner, address _module, address _vaultFreezer) public initializer {
         __AccessControl_init();
-
-        require(_owner != address(0), "Timelock: owner cannot be 0x00");
-
         _setModule(_module);
         _setVaultFreezer(_vaultFreezer);
         _grantRole(DEFAULT_ADMIN_ROLE, _owner);
@@ -48,9 +45,7 @@ contract Timelock is TimelockBase {
         address vault,
         uint256 cooldown,
         uint256 expiration
-    ) external onlyRole(QUEUER_ROLE) {
-        require(!vaultFreezer.isFrozen(vault), "Timelock: vault is frozen");
-
+    ) external {
         uint256 nonce = vaultTxNonce[vault];
 
         bytes memory encodedData = encodeQueueTransactionData(to, value, data, operation, vault, nonce);
@@ -74,23 +69,10 @@ contract Timelock is TimelockBase {
      */
     function executeTransaction(bytes32 txHash) external {
         TxStorageData memory txData = txHashData[txHash];
-        require(txData.state == TxState.Queued, "Timelock: transaction is not queued");
-        require(
-            txData.queueTimestamp + txData.cooldown <= block.timestamp,
-            "Timelock: transaction is not yet executable"
-        );
-        require(
-            txData.expiration == 0 || txData.queueTimestamp + txData.cooldown + txData.expiration > block.timestamp,
-            "Timelock: transaction is expired"
-        );
-
         (address to, uint256 value, bytes memory data, Enum.Operation operation, address vault) = abi.decode(
             txData.execData,
             (address, uint256, bytes, Enum.Operation, address)
         );
-
-        require(msg.sender == vault, "Timelock: only vault can execute transaction");
-        require(!vaultFreezer.isFrozen(vault), "Timelock: vault is frozen");
 
         txHashData[txHash].state = TxState.Executed;
 
@@ -104,16 +86,10 @@ contract Timelock is TimelockBase {
      */
     function cancelTransaction(bytes32 txHash) external {
         TxStorageData memory txData = txHashData[txHash];
-        require(txData.state == TxState.Queued, "Timelock: transaction is not queued");
-
         (address to, uint256 value, bytes memory data, Enum.Operation operation, address vault) = abi.decode(
             txData.execData,
             (address, uint256, bytes, Enum.Operation, address)
         );
-
-        require(msg.sender == vault, "Timelock: only vault can cancel transaction");
-        require(!vaultFreezer.isFrozen(vault), "Timelock: vault is frozen");
-
         txHashData[txHash].state = TxState.Canceled;
 
         emit TransactionCanceled(txHash, to, vault, value, data, operation);
