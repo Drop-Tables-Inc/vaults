@@ -23,13 +23,9 @@ contract Timelock is TimelockBase {
      */
     function setUp(address _owner, address _module, address _vaultFreezer) public initializer {
         __AccessControl_init();
-
-        require(_owner != address(0), "Timelock: owner cannot be 0x00");
-
         _setModule(_module);
         _setVaultFreezer(_vaultFreezer);
         _grantRole(DEFAULT_ADMIN_ROLE, _owner);
-
         emit TimelockSetup(msg.sender, _owner);
     }
 
@@ -50,9 +46,7 @@ contract Timelock is TimelockBase {
         uint256 expiration
     ) external onlyRole(QUEUER_ROLE) {
         require(!vaultFreezer.isFrozen(vault), "Timelock: vault is frozen");
-
         uint256 nonce = vaultTxNonce[vault];
-
         bytes memory encodedData = encodeQueueTransactionData(to, value, data, operation, vault, nonce);
         bytes32 txHash = _getTxHashFromData(encodedData);
         vaultTxHashes[vault].push(txHash);
