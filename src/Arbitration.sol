@@ -97,7 +97,7 @@ contract Arbitration is ArbitrationBase {
 
         emit ArbitrationRequestedByWhitehat(referenceId, vault, whitehat);
 
-        if (_feeAmount > 0) {
+        if (_feeAmount >= 0) {
             feeToken.safeTransferFrom(msg.sender, feeRecipient, _feeAmount);
         }
     }
