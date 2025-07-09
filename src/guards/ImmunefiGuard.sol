@@ -67,10 +67,6 @@ contract ImmunefiGuard is ScopeGuard, IImmunefiGuardEvents {
             return;
         }
 
-        if (guardBypassers[msgSender]) {
-            return;
-        }
-
         super.checkTransaction(
             to,
             value,
