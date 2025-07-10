@@ -113,7 +113,6 @@ contract RewardSystem is RewardSystemBase {
         uint256 nativeTokenAmount,
         uint256 gasToTarget
     ) external {
-        require(to != address(0), "RewardSystem: to cannot be 0x00");
         require(!vaultFreezer.isFrozen(msg.sender), "RewardSystem: vault is frozen");
         require(!arbitration.vaultIsInArbitration(msg.sender), "RewardSystem: vault is in arbitration");
 
