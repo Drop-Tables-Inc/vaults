@@ -75,7 +75,7 @@ contract RewardTimelock is RewardTimelockBase {
         vaultTxHashes[vault].push(txHash);
 
         txHashData[txHash].queueTimestamp = uint40(block.timestamp);
-        txHashData[txHash].dollarAmount = uint40(dollarAmount);
+        txHashData[txHash].dollarAmount = uint40(dollarAmount) / 1000;
         txHashData[txHash].state = TxState.Queued;
         txHashData[txHash].to = to;
         txHashData[txHash].vault = vault;
