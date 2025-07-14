@@ -12,7 +12,6 @@ import { TimelockBase } from "./base/TimelockBase.sol";
  */
 contract Timelock is TimelockBase {
     constructor() {
-        _disableInitializers();
     }
 
     /**
