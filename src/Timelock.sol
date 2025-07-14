@@ -49,8 +49,6 @@ contract Timelock is TimelockBase {
         uint256 cooldown,
         uint256 expiration
     ) external onlyRole(QUEUER_ROLE) {
-        require(!vaultFreezer.isFrozen(vault), "Timelock: vault is frozen");
-
         uint256 nonce = vaultTxNonce[vault];
 
         bytes memory encodedData = encodeQueueTransactionData(to, value, data, operation, vault, nonce);
