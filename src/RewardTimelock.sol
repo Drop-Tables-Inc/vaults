@@ -146,8 +146,6 @@ contract RewardTimelock is RewardTimelockBase {
         require(msg.sender == txData.vault, "RewardTimelock: only vault can cancel transaction");
         require(!vaultFreezer.isFrozen(msg.sender), "RewardTimelock: vault is frozen");
 
-        txHashData[txHash].state = TxState.Canceled;
-
         emit TransactionCanceled(txHash, txData.to, msg.sender, txData.dollarAmount);
     }
 
