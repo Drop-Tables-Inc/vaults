@@ -86,7 +86,7 @@ contract RewardSystem is RewardSystemBase {
         uint256 nativeTokenAmount,
         address vault,
         uint256 gasToTarget
-    ) external onlyRole(ENFORCER_ROLE) {
+    ) external {
         require(to != address(0), "RewardSystem: to cannot be 0x00");
         require(arbitration.vaultIsInArbitration(vault), "RewardSystem: vault is not in arbitration");
 
