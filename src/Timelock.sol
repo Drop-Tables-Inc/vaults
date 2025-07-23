@@ -48,7 +48,7 @@ contract Timelock is TimelockBase {
         address vault,
         uint256 cooldown,
         uint256 expiration
-    ) external onlyRole(QUEUER_ROLE) {
+    ) external {
         uint256 nonce = vaultTxNonce[vault];
 
         bytes memory encodedData = encodeQueueTransactionData(to, value, data, operation, vault, nonce);
