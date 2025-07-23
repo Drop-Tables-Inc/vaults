@@ -46,9 +46,6 @@ contract Arbitration is ArbitrationBase {
         address _feeRecipient
     ) public initializer {
         __AccessControl_init();
-
-        require(_owner != address(0), "Arbitration: owner cannot be 0x00");
-
         _grantRole(DEFAULT_ADMIN_ROLE, _owner);
         _setModule(_module);
         _setRewardSystem(_rewardSystem);
