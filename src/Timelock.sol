@@ -29,8 +29,6 @@ contract Timelock is TimelockBase {
         _setModule(_module);
         _setVaultFreezer(_vaultFreezer);
         _grantRole(DEFAULT_ADMIN_ROLE, _owner);
-
-        emit TimelockSetup(msg.sender, _owner);
     }
 
     /**
