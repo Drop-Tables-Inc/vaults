@@ -39,7 +39,6 @@ contract RewardSystem is RewardSystemBase {
         _setVaultFreezer(_vaultFreezer);
         _grantRole(DEFAULT_ADMIN_ROLE, _owner);
 
-        emit RewardSystemSetup(msg.sender, _owner);
     }
 
     /**
